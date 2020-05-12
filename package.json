@@ -1,6 +1,6 @@
 {
   "name": "@flintdev/model-editor-canvas",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "npm package - react canvas engine",
   "main": "dist/index.js",
   "scripts": {
@@ -42,7 +42,10 @@
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-dev-server": "^3.10.1",
+    "@material-ui/core": "^4.9.14",
+    "@material-ui/icons": "^4.9.1",
+    "copyfiles": "^2.2.0"
   },
   "peerDependencies": {
     "react": "^16.12.0 || ^16.0.0",

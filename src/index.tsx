@@ -1,4 +1,4 @@
-import ModelEditorCanvas from "./components/ModelEditorCanvas"
+import {ModelEditorCanvas} from "./components/ModelEditorCanvas"
 
 export {
     ModelEditorCanvas

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {canvasData} from './data';
 import {ModelEditorCanvas} from "../dist";
@@ -37,17 +37,15 @@ export default class App extends React.Component<any, any> {
             <div className="fit-parent" style={{display: "flex"}}>
                 <div style={{width: `80%`}}>
                     <ModelEditorCanvas
-                        className="fit-parent"
                         operations={this.operations}
                         editorData={canvasData}
                         onSaved={(data: any) => console.log('>>> ModelEditorCanvas.onSave.data', data)}
                         onBlockDbClick={this.handleBlockDbClick}
-                        onSchemaBtnClick={() => {
-                        }}
+                        onSchemaBtnClick={() => { }}
                     />
                 </div>
                 <div style={{width: `20%`, display: "flex", flexDirection: "column"}}>
-                    <div className="topDock">
+                    <div>
                         <button onClick={this.handleEditSave}>save</button>
                     </div>
                     <textarea style={{flexGrow: 1}} value={this.state.blockData} onChange={this.handleEditChange}
