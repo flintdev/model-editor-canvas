@@ -1,0 +1,172 @@
+.engine-container {
+  overflow: hidden;
+  width: 100%;
+  height: calc(100% - 40px);
+}
+
+.engine-canvas {
+  background-size: 25px 25px;
+  background-image: linear-gradient(to right, #ddd 1px, transparent 1px), linear-gradient(#ddd 1px, transparent 1px);
+  height: 1000%;
+  width: 1000%;
+}
+
+.topDock {
+  width: 100%;
+  background-color: white;
+  height: 40px;
+  align-items: center;
+  display: flex;
+  border-bottom: 1px solid black;
+}
+
+#example-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+button {
+  background-color: #2196f3;
+  outline: 0;
+  border: none;
+  cursor: pointer;
+  color: white;
+  padding: 11px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+button:hover {
+  background-color: #1769aa;
+}
+
+.fit-parent {
+  width: 100%;
+  height: 100%;
+}
+
+.menu {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  line-height: 30px;
+}
+
+.menu-title {
+  font-size: 10px;
+  line-height: 5px;
+}
+
+.menu-button {
+  background-color: #ffffff;
+  border: none;
+  color: #000000;
+  padding: 0px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.menu-button:hover {
+  background-color: #dddddd;
+}
+
+.block {
+  margin: 20px;
+  width: 300px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.block:hover {
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.5), 0px 3px 4px 0px rgba(0, 0, 0, 0.5), 0px 1px 8px 0px rgba(0, 0, 0, 0.5)
+}
+
+.block-adder {
+  padding: 0px;
+}
+
+.block-title {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  text-overflow: ellipsis;
+}
+
+.block-item {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 10px;
+  width: calc(100% - 40px);
+}
+
+.block-item-name {
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.block-item-type {
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.socket {
+  z-index: 100;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #4CAF5050;
+}
+
+.socket:hover {
+  background-color: #4CAF50;
+}
+
+.chain {
+  position: absolute;
+  width: 0px;
+  height: 0px;
+}
+
+.chain svg {
+  overflow: visible !important;
+}
+
+.chain path {
+  fill: none;
+  stroke-width: 5px;
+  stroke: lightgrey;
+}
+
+.chain text {
+  font-size: 35px;
+  fill: lightgrey;
+  font-weight: bold;
+}
+.chain path :hover {
+  stroke: grey;
+}
+
+.chain text :hover {
+  fill: grey;
+}
+
+.paper {
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12)
+}
