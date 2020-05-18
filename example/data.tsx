@@ -1,200 +1,225 @@
 export const canvasData = {
     "nodeDataList": [
         {
+            "nodeId": "0803ma9kfog3kabysdg9",
             "name": "Block",
-            "x": 6907.34765625,
-            "y": 5105.62060546875,
+            "x": 4576.099856023115,
+            "y": 3885.1454980598774,
             "zIndex": 2,
             "props": {
-                "blockName": "New Block",
-                "sockets": {
-                    "input::0": {
-                        "offsetLeft": 12,
-                        "offsetWidth": 20,
-                        "offsetTop": 22,
-                        "offsetHeight": 20
+                "blockName": "Pod",
+                "sockets": [
+                    {
+                        "type": "input",
+                        "id": "opf4lsaj8vkabysdg9"
                     },
-                    "output::b2f5n5rcwika2gvl4n": {
-                        "blockItemName": "default",
+                    {
+                        "id": "7h7ithgy3rlkabysdg9",
+                        "name": "apiVersion",
                         "dataType": "string",
-                        "offsetLeft": 312,
+                        "type": "output",
+                        "offsetLeft": 412,
                         "offsetWidth": 20,
                         "offsetTop": 67,
                         "offsetHeight": 20
                     },
-                    "output::l1o56usd4pka2gvlgc": {
-                        "blockItemName": "default",
+                    {
+                        "id": "yir08f7qkxkabysglt",
+                        "name": "kind",
                         "dataType": "string",
-                        "offsetLeft": 312,
+                        "type": "output",
+                        "offsetLeft": 412,
                         "offsetWidth": 20,
                         "offsetTop": 92,
                         "offsetHeight": 20
                     },
-                    "output::82f4aib9bn7ka2gvlrs": {
-                        "blockItemName": "default",
+                    {
+                        "id": "fs8yv6xxpgmkabysgxa",
+                        "name": "metadata",
                         "dataType": "$ref",
-                        "offsetLeft": 312,
+                        "type": "output",
+                        "offsetLeft": 412,
                         "offsetWidth": 20,
                         "offsetTop": 117,
                         "offsetHeight": 20
+                    }
+                ]
+            }
+        },
+        {
+            "nodeId": "9bw63f8r9wkabysif8",
+            "name": "Block",
+            "x": 5061.283395525991,
+            "y": 3582.7351305012576,
+            "zIndex": 2,
+            "props": {
+                "blockName": "MetaData",
+                "sockets": [
+                    {
+                        "type": "input",
+                        "id": "0ut6zorwp1fmkabysif8"
                     },
-                    "output::ynn86t5053ka2gvm4a": {
-                        "blockItemName": "default",
-                        "dataType": "string",
-                        "offsetLeft": 312,
+                    {
+                        "id": "s913immsljkabysif8",
+                        "name": "annotation",
+                        "dataType": "object",
+                        "type": "output",
+                        "offsetLeft": 412,
                         "offsetWidth": 20,
-                        "offsetTop": 142,
+                        "offsetTop": 67,
                         "offsetHeight": 20
                     },
-                    "output::we6bnx5m7wka2gvmfq": {
-                        "blockItemName": "default",
+                    {
+                        "id": "s913imm2sljkabysif8",
+                        "name": "generation",
+                        "dataType": "integer",
+                        "type": "output",
+                        "offsetLeft": 412,
+                        "offsetWidth": 20,
+                        "offsetTop": 92,
+                        "offsetHeight": 20
+                    },
+                    {
+                        "id": "s913imm2s3lj23kabysif8",
+                        "name": "initializer",
                         "dataType": "$ref[]",
-                        "offsetLeft": 312,
-                        "offsetWidth": 20,
-                        "offsetTop": 167,
-                        "offsetHeight": 20
-                    }
-                }
-            },
-            "nodeId": "hgj85fsn648ka2gvjcx"
-        },
-        {
-            "name": "Block",
-            "x": 7384.00390625,
-            "y": 5007.68017578125,
-            "zIndex": 2,
-            "props": {
-                "blockName": "New Block",
-                "sockets": {
-                    "input::0": {
-                        "offsetLeft": 12,
-                        "offsetWidth": 20,
-                        "offsetTop": 22,
-                        "offsetHeight": 20
-                    },
-                    "output::dttqluqku79ka2gvukg": {
-                        "blockItemName": "default",
-                        "dataType": "string",
-                        "offsetLeft": 312,
-                        "offsetWidth": 20,
-                        "offsetTop": 67,
-                        "offsetHeight": 20
-                    },
-                    "output::oi56bndwyuka2gvuv8": {
-                        "blockItemName": "default",
-                        "dataType": "string",
-                        "offsetLeft": 312,
-                        "offsetWidth": 20,
-                        "offsetTop": 92,
-                        "offsetHeight": 20
-                    },
-                    "output::qikstkksgyhka2gvvhk": {
-                        "blockItemName": "default",
-                        "dataType": "string",
-                        "offsetLeft": 312,
-                        "offsetWidth": 20,
-                        "offsetTop": 117,
-                        "offsetHeight": 20
-                    }
-                }
-            },
-            "nodeId": "p0yeacip1woka2gvk1w"
-        },
-        {
-            "name": "Block",
-            "x": 7528.28857421875,
-            "y": 5396.58251953125,
-            "zIndex": 2,
-            "props": {
-                "blockName": "New Block",
-                "sockets": {
-                    "input::0": {
-                        "offsetLeft": 12,
-                        "offsetWidth": 20,
-                        "offsetTop": 22,
-                        "offsetHeight": 20
-                    },
-                    "output::qmfgwfuryzka2gvw81": {
-                        "blockItemName": "default",
-                        "dataType": "string",
-                        "offsetLeft": 312,
-                        "offsetWidth": 20,
-                        "offsetTop": 67,
-                        "offsetHeight": 20
-                    },
-                    "output::kjo7wzbhymdka2gvwkp": {
-                        "blockItemName": "default",
-                        "dataType": "string",
-                        "offsetLeft": 312,
-                        "offsetWidth": 20,
-                        "offsetTop": 92,
-                        "offsetHeight": 20
-                    },
-                    "output::t0sw6yv31ka2gvx17": {
-                        "blockItemName": "default",
-                        "dataType": "string",
-                        "offsetLeft": 312,
+                        "type": "output",
+                        "offsetLeft": 412,
                         "offsetWidth": 20,
                         "offsetTop": 117,
                         "offsetHeight": 20
                     },
-                    "output::vu6mrb1ryyka2gvxej": {
-                        "blockItemName": "default",
-                        "dataType": "string",
-                        "offsetLeft": 312,
+                    {
+                        "id": "s913imm2s3ljkabysif8",
+                        "name": "ownerReference",
+                        "dataType": "$ref[]",
+                        "type": "output",
+                        "offsetLeft": 412,
                         "offsetWidth": 20,
                         "offsetTop": 142,
                         "offsetHeight": 20
                     }
-                }
-            },
-            "nodeId": "p9567wuqnfcka2gvktt"
+                ]
+            }
         },
         {
+            "nodeId": "vo3l76y3fkdkabzfz9v",
+            "name": "Block",
+            "x": 5547.610544144283,
+            "y": 4189.497511632649,
+            "zIndex": 2,
+            "props": {
+                "blockName": "OwnerReference",
+                "sockets": [
+                    {
+                        "type": "input",
+                        "id": "2nutiliopczkabzfz9v"
+                    },
+                    {
+                        "id": "lihhekg7agkabzfz9v",
+                        "name": "controller",
+                        "dataType": "boolean",
+                        "type": "output",
+                        "offsetLeft": 412,
+                        "offsetWidth": 20,
+                        "offsetTop": 67,
+                        "offsetHeight": 20
+                    }
+                ]
+            }
+        },
+        {
+            "nodeId": "mq86o5hjgmdkabzoa3k",
+            "name": "Block",
+            "x": 5533.970161780552,
+            "y": 3329.5018068263207,
+            "zIndex": 2,
+            "props": {
+                "blockName": "Initializer",
+                "sockets": [
+                    {
+                        "type": "input",
+                        "id": "2nutiliopczkabzfz9v"
+                    },
+                    {
+                        "id": "lihhekg7agkabzfz9v",
+                        "name": "labels",
+                        "dataType": "object",
+                        "type": "output",
+                        "offsetLeft": 412,
+                        "offsetWidth": 20,
+                        "offsetTop": 67,
+                        "offsetHeight": 20
+                    }
+                ]
+            }
+        },
+        {
+            "nodeId": "lyezzzh7eq8kac3163y",
             "name": "Chain",
             "x": 0,
             "y": 0,
             "props": {
-                "x1": 7229.34765625,
-                "y1": 5232.62060546875,
-                "x2": 7406.00390625,
-                "y2": 5039.68017578125,
-                "startNodeId": "hgj85fsn648ka2gvjcx",
-                "endNodeId": "p0yeacip1woka2gvk1w",
-                "startSocket": "output::82f4aib9bn7ka2gvlrs",
-                "endSocket": "input::0"
+                "x1": 4998.099856023115,
+                "y1": 4012.1454980598774,
+                "x2": 5083.283395525991,
+                "y2": 3614.7351305012576,
+                "startNodeId": "0803ma9kfog3kabysdg9",
+                "endNodeId": "9bw63f8r9wkabysif8",
+                "startSocket": "fs8yv6xxpgmkabysgxa",
+                "endSocket": "0ut6zorwp1fmkabysif8"
             },
-            "zIndex": 1,
-            "nodeId": "f8gdl7vj03cka2gvsej"
+            "zIndex": 1
         },
         {
+            "nodeId": "4uir7bu1nkkac317o7",
             "name": "Chain",
             "x": 0,
             "y": 0,
             "props": {
-                "x1": 7229.34765625,
-                "y1": 5282.62060546875,
-                "x2": 7550.28857421875,
-                "y2": 5428.58251953125,
-                "startNodeId": "hgj85fsn648ka2gvjcx",
-                "endNodeId": "p9567wuqnfcka2gvktt",
-                "startSocket": "output::we6bnx5m7wka2gvmfq",
-                "endSocket": "input::0"
+                "x1": 5483.283395525991,
+                "y1": 3734.7351305012576,
+                "x2": 5569.610544144283,
+                "y2": 4221.497511632649,
+                "startNodeId": "9bw63f8r9wkabysif8",
+                "endNodeId": "vo3l76y3fkdkabzfz9v",
+                "startSocket": "s913imm2s3ljkabysif8",
+                "endSocket": "2nutiliopczkabzfz9v"
             },
-            "zIndex": 1,
-            "nodeId": "kumkmwx0jbeka2gvtv1"
+            "zIndex": 1
+        },
+        {
+            "nodeId": "3bapih0qjhrkac319e4",
+            "name": "Chain",
+            "x": 0,
+            "y": 0,
+            "props": {
+                "x1": 5483.283395525991,
+                "y1": 3709.7351305012576,
+                "x2": 5555.970161780552,
+                "y2": 3361.5018068263207,
+                "startNodeId": "9bw63f8r9wkabysif8",
+                "endNodeId": "mq86o5hjgmdkabzoa3k",
+                "startSocket": "s913imm2s3lj23kabysif8",
+                "endSocket": "2nutiliopczkabzfz9v"
+            },
+            "zIndex": 1
         }
     ],
     "nodeToNeighbors": {
-        "hgj85fsn648ka2gvjcx": [
-            "f8gdl7vj03cka2gvsej",
-            "kumkmwx0jbeka2gvtv1"
+        "0803ma9kfog3kabysdg9": [
+            "lyezzzh7eq8kac3163y"
         ],
-        "p0yeacip1woka2gvk1w": [
-            "f8gdl7vj03cka2gvsej"
+        "9bw63f8r9wkabysif8": [
+            "lyezzzh7eq8kac3163y",
+            "4uir7bu1nkkac317o7",
+            "3bapih0qjhrkac319e4"
         ],
-        "p9567wuqnfcka2gvktt": [
-            "kumkmwx0jbeka2gvtv1"
+        "vo3l76y3fkdkabzfz9v": [
+            "4uir7bu1nkkac317o7"
+        ],
+        "mq86o5hjgmdkabzoa3k": [
+            "3bapih0qjhrkac319e4"
         ]
     }
 };
