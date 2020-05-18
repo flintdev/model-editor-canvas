@@ -9,12 +9,13 @@ import {
 } from "../../../flint-react-canvas";
 import {PLUGIN_EVENTS} from "./index";
 import {PLUGIN_COMPONENTS} from "../canvasComponets";
-import {graphToBlockTree} from "../parser/graphToBlockTree";
+import {getRefNameByBlock, graphToBlockTree} from "../parser/graphToBlockTree";
 import {Button, IconButton, Tooltip} from "@material-ui/core";
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import SaveIcon from '@material-ui/icons/Save';
 import AddIcon from '@material-ui/icons/Add';
+import {utils} from "@flintdev/flint-react-canvas/dist";
 
 class ToolBar extends React.Component<any, any> {
     constructor(props: any) {
@@ -43,16 +44,17 @@ class ToolBar extends React.Component<any, any> {
     componentDidMount() {
         const {operations} = this.props;
         operations.updateBlockData = this.handleUpdateBlockData;
+        operations.getUUID = utils.getUUId;
     }
 
 
-    handleUpdateBlockData(blockData: NodeData) {
+    handleUpdateBlockData(blockData: any) {
 
         const {editor} = this.props;
         const engine: Engine = editor.getEngine();
         const node = engine.nodes.get(blockData.nodeId);
         if (node) {
-            const removeChainBySocketDataType = (newBlockData: NodeData) => {
+            const removeChainBySocketDataType = (newBlockData) => {
                 const {nodeId, props} = newBlockData;
                 const {sockets} = props;
                 (engine.nodeToNeighbors[nodeId] || []).forEach((id: string) => {
@@ -60,26 +62,43 @@ class ToolBar extends React.Component<any, any> {
                     if (chain) {
                         const startSocket = chain.nodeData.props.startSocket;
                         const startNodeId = chain.nodeData.props.startNodeId;
-                        const endNodeId = chain.nodeData.props.endNodeId;
                         if (startNodeId === nodeId) {
-                            if (!sockets[startSocket] || sockets[startSocket].dataType.indexOf("$ref") === -1) {
+                            const isSocketExist = sockets.find(socket => socket.id === startSocket);
+                            if (!isSocketExist) {
+                                engine.removeNode(id);
+                            } else if (isSocketExist.dataType && isSocketExist.dataType.indexOf("$ref") === -1) {
                                 engine.removeNode(id);
                             }
                         }
                     }
                 });
             };
+            const {name, items} = blockData;
+            items.map(item => item.type = "output");
+            const inputSocket = node.nodeData.props.sockets.find(socket => socket.type === "input");
             const newBlockData = {
                 ...node.nodeData,
-                ...blockData
+                props: {
+                    blockName: name,
+                    sockets: [
+                        inputSocket,
+                        ...items
+                    ]
+                }
             };
             removeChainBySocketDataType(newBlockData);
+
             node.updateNodeData(newBlockData);
             engine.trigger(NODE_DEFAULT_EVENTS.NODE_RENDER, {
                 container: node.container,
                 component: engine.components.get(newBlockData.name),
                 nodeData: newBlockData
             });
+
+            const nodeDataList: any[] = [];
+            engine.nodes.forEach((node: Node) => nodeDataList.push(node.nodeData));
+            const refsMapping = getRefNameByBlock(nodeDataList);
+            engine.trigger(PLUGIN_EVENTS.NODE_UPDATE_BLOCKNAME, refsMapping)
         }
     }
 
@@ -112,7 +131,7 @@ class ToolBar extends React.Component<any, any> {
             nodeDataList: [...blocks, ...chains],
             nodeToNeighbors: engine.nodeToNeighbors
         };
-        this.props.onSaved(graphToBlockTree(editorData));
+        this.props.onSaved(utils.deepCopy(graphToBlockTree(editorData)));
 
     }
 
@@ -162,15 +181,17 @@ class ToolBar extends React.Component<any, any> {
                     </IconButton>
                 </Tooltip>
 
-                <Tooltip title="remove all">
-                    <IconButton onClick={this.handleRemoveAllNodes}>
-                        <DeleteForeverIcon/>
-                    </IconButton>
-                </Tooltip>
-
                 <Tooltip title="save">
                     <IconButton onClick={this.handleSaveCanvas}>
                         <SaveIcon/>
+                    </IconButton>
+                </Tooltip>
+
+                <div style={{flexGrow: 1}}></div>
+
+                <Tooltip title="remove all">
+                    <IconButton onClick={this.handleRemoveAllNodes}>
+                        <DeleteForeverIcon/>
                     </IconButton>
                 </Tooltip>
             </div>
