@@ -38,22 +38,33 @@ class DndCreateBlock extends React.PureComponent<any, any> {
             engine.on(PLUGIN_EVENTS.NODE_DOUBLECLICK, (data: any) => {
                 const {nodeData, e} = data;
                 const {onBlockDbClick} = this.props;
+
                 const filterPositionInfo = (data: any) => {
                     const ret = utils.deepCopy(data) as NodeData;
                     delete ret.x;
                     delete ret.zIndex;
                     delete ret.y;
                     const sockets = ret.props.sockets;
-                    ret.props.sockets = Object.keys(sockets).reduce((ret: any, k: string) => {
-                        const socket = sockets[k];
+
+                    const {props, nodeId} = ret;
+                    const {blockName = ""} = props;
+                    const items = sockets.reduce((ret, socket) => {
+                        const {type} = socket;
+                        if (type === "input") return ret;
                         delete socket.offsetHeight;
                         delete socket.offsetLeft;
                         delete socket.offsetTop;
                         delete socket.offsetWidth;
-                        ret[k] = socket;
+                        delete socket.type;
+                        ret.push(socket);
                         return ret;
-                    }, {});
-                    return ret;
+                    }, []);
+
+                    return {
+                        nodeId,
+                        name: blockName,
+                        items
+                    };
                 };
                 onBlockDbClick(filterPositionInfo(nodeData));
             });
@@ -126,12 +137,20 @@ class DndCreateBlock extends React.PureComponent<any, any> {
         const [x, y] = position;
         this.click(x, y);
         engine.addNode({
+            nodeId: "",
             name: PLUGIN_COMPONENTS.Block.name, x: x, y: y, zIndex: 2,
             props: {
                 blockName: "New Block",
-                sockets: {
-                    "input::0": {}
-                }
+                sockets: [
+                    {
+                        type: "input",
+                        id: utils.getUUId()
+                    },
+                    {
+                        type: "output",
+                        id: utils.getUUId()
+                    }
+                ]
             }
         });
     };
@@ -146,7 +165,18 @@ class DndCreateBlock extends React.PureComponent<any, any> {
                     style={{position: `fixed`, left: x, top: y}}
                     onClick={this.handleOnClick}
                 >
-                    <Block sockets={{"input::0": {}}} blockName={"New Block"}/>
+                    <Block sockets={
+                        [
+                            {
+                                type: "input",
+                                id: utils.getUUId()
+                            },
+                            {
+                                type: "output",
+                                id: utils.getUUId()
+                            }
+                        ]
+                    } blockName={"New Block"}/>
                 </div>}
             </>
         );

@@ -20,16 +20,16 @@ export class Chain extends React.Component<any, any> {
             <div className={"chain"}>
                 <svg>
                     <path d={path} id={pathID}></path>
-                    <text>
-                        <textPath xlinkHref={`#${pathID}`} startOffset="5%"
-                                  dominantBaseline="middle">{direction}</textPath>
-                        <textPath xlinkHref={`#${pathID}`} startOffset="33%"
-                                  dominantBaseline="middle">{direction}</textPath>
-                        <textPath xlinkHref={`#${pathID}`} startOffset="66%"
-                                  dominantBaseline="middle">{direction}</textPath>
-                        <textPath xlinkHref={`#${pathID}`} startOffset="95%"
-                                  dominantBaseline="middle">{direction}</textPath>
-                    </text>
+                    {/*<text>*/}
+                    {/*    <textPath xlinkHref={`#${pathID}`} startOffset="5%"*/}
+                    {/*              dominantBaseline="middle">{direction}</textPath>*/}
+                    {/*    <textPath xlinkHref={`#${pathID}`} startOffset="33%"*/}
+                    {/*              dominantBaseline="middle">{direction}</textPath>*/}
+                    {/*    <textPath xlinkHref={`#${pathID}`} startOffset="66%"*/}
+                    {/*              dominantBaseline="middle">{direction}</textPath>*/}
+                    {/*    <textPath xlinkHref={`#${pathID}`} startOffset="95%"*/}
+                    {/*              dominantBaseline="middle">{direction}</textPath>*/}
+                    {/*</text>*/}
                 </svg>
             </div>
         );

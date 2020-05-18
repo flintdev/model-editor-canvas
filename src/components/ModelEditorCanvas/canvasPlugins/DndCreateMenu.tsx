@@ -1,7 +1,9 @@
 import React from "react";
 
-import {withEngineContext, WINDOW_DEFAULT_EVENTS} from "../../../flint-react-canvas";
+import {withEngineContext, WINDOW_DEFAULT_EVENTS, Node} from "../../../flint-react-canvas";
 import {PLUGIN_COMPONENTS} from "../canvasComponets";
+import {getRefNameByBlock} from "../parser/graphToBlockTree";
+import {PLUGIN_EVENTS} from "./index";
 
 
 class DndCreateMenu extends React.PureComponent<any, any> {
@@ -74,6 +76,10 @@ class DndCreateMenu extends React.PureComponent<any, any> {
         const engine = editor.getEngine();
 
         engine.removeNode(nodeData.nodeId);
+        const nodeDataList: any[] = [];
+        engine.nodes.forEach((node: Node) => nodeDataList.push(node.nodeData));
+        const refsMapping = getRefNameByBlock(nodeDataList);
+        engine.trigger(PLUGIN_EVENTS.NODE_UPDATE_BLOCKNAME, refsMapping)
     }
 
     handleClone() {

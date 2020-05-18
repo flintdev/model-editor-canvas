@@ -1,9 +1,11 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
-import {Node, withEngineContext, WINDOW_DEFAULT_EVENTS} from "../../../flint-react-canvas";
+import {Node, withEngineContext, WINDOW_DEFAULT_EVENTS, Engine} from "../../../flint-react-canvas";
 import {Chain} from "../canvasComponets/Chain";
 import {PLUGIN_EVENTS, PLUGIN_ENGINE_MODE} from "./index";
 import {PLUGIN_COMPONENTS} from "../canvasComponets";
+import {getRefNameByBlock} from "../parser/graphToBlockTree";
 
 class DndCreateChain extends React.PureComponent<any, any> {
     constructor(props: any) {
@@ -21,15 +23,17 @@ class DndCreateChain extends React.PureComponent<any, any> {
     engineRegister() {
         const {onAfterAddEngine} = this.props;
 
-        onAfterAddEngine(({engine}: any) => {
+        onAfterAddEngine(({engine}: {engine: Engine}) => {
 
-            const getXY = (nodeData: any, socketType: string, socketId: string) => {
-                const {offsetLeft, offsetWidth, offsetTop, offsetHeight} = nodeData.props.sockets[`${socketType}::${socketId}`];
+            const getXY = (nodeData: any, socketId: string) => {
+                const {offsetLeft, offsetWidth, offsetTop, offsetHeight} = nodeData.props.sockets.find(socket => socket.id === socketId);
+
                 return {
                     x: nodeData.x + offsetLeft + offsetWidth / 2,
                     y: nodeData.y + offsetTop + offsetHeight / 2
                 };
             };
+
             const connected = (startNodeId: string, endNodeId: string, startSocket: string, endSocket: string) => {
                 return Array.from(engine.nodes.values()).reduce((ret, node: Node) => {
                     if (node.nodeData.name === PLUGIN_COMPONENTS.Chain.name) {
@@ -62,8 +66,40 @@ class DndCreateChain extends React.PureComponent<any, any> {
                 }
             });
 
-            engine.on(PLUGIN_EVENTS.PLUGIN_CONNECTION_CREATE, (data: any) => {
-                const {e, socketType, socketId, nodeData} = data;
+            engine.on(PLUGIN_EVENTS.PLUGIN_CHAIN_RERENDER, (data: any) => {
+                const {nodeData, socketId} = data;
+                (engine.nodeToNeighbors[nodeData.nodeId] || []).forEach((chainId: string) => {
+                    const chain = engine.nodes.get(chainId);
+                    if (chain) {
+                        const {startNodeId, startSocket} = chain.nodeData.props;
+                        if (startNodeId === nodeData.nodeId && startSocket === socketId) {
+                            const node = engine.nodes.get(nodeData.nodeId);
+                            if (node) {
+                                const {x, y} = getXY(node.nodeData, socketId);
+                                const newNodeData = {
+                                    ...chain.nodeData,
+                                    props: {
+                                        ...chain.nodeData.props,
+                                        x1: x,
+                                        y1: y
+                                    }
+                                };
+                                chain.updateNodeData(newNodeData);
+                                const Component = PLUGIN_COMPONENTS.Chain.component;
+                                ReactDOM.render(<Component {...newNodeData?.props} engine={engine} nodeData={newNodeData}/>, chain.container);
+                            }
+                        }
+                    }
+                });
+            });
+
+            engine.on(PLUGIN_EVENTS.PLUGIN_CHAIN_CANCEL, () => {
+                engine.mode = PLUGIN_ENGINE_MODE.READY;
+                engine.modedata = null;
+            });
+
+            engine.on(PLUGIN_EVENTS.PLUGIN_CHAIN_CREATE, (data: any) => {
+                const {e, socket, nodeData} = data;
                 e.preventDefault();
                 e.stopPropagation();
                 if (engine.mode === PLUGIN_ENGINE_MODE.READY) {
@@ -71,11 +107,12 @@ class DndCreateChain extends React.PureComponent<any, any> {
 
                     engine.pointermove(e as any as PointerEvent);
 
-                    const {x: x1, y: y1} = getXY(nodeData, socketType, socketId);
+                    const {x: x1, y: y1} = getXY(nodeData, socket.id);
+                    const {id, type} = socket;
                     engine.modedata = {
                         startNode: nodeData,
-                        startSocket: `${socketType}::${socketId}`,
-                        socketId,
+                        startSocket: id,
+                        startType: type,
                         x1,
                         y1
                     };
@@ -87,15 +124,21 @@ class DndCreateChain extends React.PureComponent<any, any> {
                     engine.mode = PLUGIN_ENGINE_MODE.READY;
 
                     const endNode = nodeData;
-                    const endSocket = `${socketType}::${socketId}`;
-                    const {x1, y1, startNode, startSocket} = engine.modedata;
+                    const {id, type} = socket;
+                    let endSocket = id;
+                    let {x1, y1, startNode, startSocket, startType} = engine.modedata;
 
-                    const {x: x2, y: y2} = getXY(endNode, socketType, socketId);
+                    let {x: x2, y: y2} = getXY(nodeData, socket.id);
                     this.click(x2, y2);
-                    const startNodeId = startNode.nodeId;
-                    const endNodeId = endNode.nodeId;
-                    if (!connected(startNodeId, endNodeId, startSocket, endSocket)) {
+                    let startNodeId = startNode.nodeId;
+                    let endNodeId = endNode.nodeId;
+
+                    if (startType === "input") {
+                        [startNodeId, endNodeId, startSocket, endSocket, x1, y1, x2, y2] = [endNodeId, startNodeId, endSocket, startSocket, x2, y2, x1, y1];
+                    }
+                    if (startType !== type && !connected(startNodeId, endNodeId, startSocket, endSocket)) {
                         const newNodeData = engine.addNode({
+                            nodeId: "",
                             name: PLUGIN_COMPONENTS.Chain.name, x: 0, y: 0, props: {
                                 x1, y1, x2, y2,
                                 startNodeId, endNodeId, startSocket, endSocket,
@@ -105,6 +148,10 @@ class DndCreateChain extends React.PureComponent<any, any> {
                             engine.addNeighbor(newNodeData!.nodeId, startNode.nodeId);
                             engine.addNeighbor(newNodeData!.nodeId, endNode.nodeId);
                         }
+                        const nodeDataList: any[] = [];
+                        engine.nodes.forEach((node: Node) => nodeDataList.push(node.nodeData));
+                        const refsMapping = getRefNameByBlock(nodeDataList);
+                        engine.trigger(PLUGIN_EVENTS.NODE_UPDATE_BLOCKNAME, refsMapping);
                     } else {
 
                     }
@@ -133,9 +180,12 @@ class DndCreateChain extends React.PureComponent<any, any> {
     }
 
     handleOnClick = async () => {
+        const {editor} = this.props;
+        const engine = editor.getEngine();
         const {position} = this.state;
         const [x, y] = position;
         this.click(x, y);
+        engine.trigger(PLUGIN_EVENTS.PLUGIN_CHAIN_CANCEL, {})
     };
 
     render() {
