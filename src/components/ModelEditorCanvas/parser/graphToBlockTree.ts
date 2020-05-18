@@ -1,45 +1,57 @@
 import {PLUGIN_COMPONENTS} from "../canvasComponets";
+import {utils} from "@flintdev/flint-react-canvas/dist";
+
+export const getRefNameByBlock = (nodeDataList: any[]) => {
+    const blockIdToNames = nodeDataList
+        .filter((node: any) => node.name === PLUGIN_COMPONENTS.Block.name)
+        .reduce((ret, block) => {
+            const {nodeId, props} = block;
+            const {blockName = ""} = props;
+            ret[nodeId] = blockName;
+            return ret;
+        }, {});
+    return nodeDataList
+        .filter((node: any) => node.name === PLUGIN_COMPONENTS.Chain.name)
+        .reduce((ret: any, chain: any) => {
+            const {endNodeId, endSocket, startNodeId, startSocket} = chain.props;
+            ret[`${startNodeId}::${startSocket}`] = blockIdToNames[endNodeId];
+            return ret;
+        }, {});
+};
 
 export const graphToBlockTree = (data: any) => {
     const {nodeDataList} = data;
-    const nodeIdToBlockName: any = {};
-    const socketIdToBlockItemName: any = {};
+    const refsMapping = getRefNameByBlock(nodeDataList);
     return {
         canvasData: data,
         blockData: nodeDataList
-            .filter((block: any) => block.name === PLUGIN_COMPONENTS.Block.name)
+            .filter((node: any) => node.name === PLUGIN_COMPONENTS.Block.name)
             .map((block: any) => {
                 const {nodeId} = block;
                 const {blockName, sockets} = block.props;
-                nodeIdToBlockName[nodeId] = blockName;
-                const blockItems = Object.keys(sockets)
-                    .filter(k => {
-                        const [socketType, socketId] = k.split("::");
-                        return socketType === "output";
-                    })
-                    .map((k: string) => {
-                        const socket = sockets[k];
-                        const {blockItemName, dataType, required = false} = socket;
-                        socketIdToBlockItemName[`${nodeId}::${k}`] = blockItemName;
-                        return {
-                            name: blockItemName,
-                            dataType,
-                            required
-                        };
-                    });
+                const refs = {};
+                const blockItems = sockets
+                    .reduce((ret, socket) => {
+                        const {type, name = "", id = ""} = socket;
+                        if (type === "input") return ret;
+                        const ref = refsMapping[`${nodeId}::${id}`];
+                        if (ref) {
+                            refs[name] = ref;
+                        }
+                        delete socket.offsetHeight;
+                        delete socket.offsetLeft;
+                        delete socket.offsetTop;
+                        delete socket.offsetWidth;
+                        const tmp = utils.deepCopy(socket);
+                        delete tmp.type;
+                        ret.push(tmp);
+                        return ret;
+                    }, []);
                 return {
                     name: blockName,
-                    items: blockItems
+                    items: blockItems,
+                    refs
                 };
-            }),
-        refs: nodeDataList
-            .filter((block: any) => block.name === PLUGIN_COMPONENTS.Chain.name)
-            .reduce((ret: any, chain: any) => {
-                const {endNodeId, endSocket, startNodeId, startSocket} = chain.props;
-                const startBlockItemName = socketIdToBlockItemName[`${startNodeId}::${startSocket}`];
-                const endBlockName = nodeIdToBlockName[endNodeId];
-                ret[startBlockItemName] = endBlockName;
-                return ret;
-            }, {}),
+            })
     };
 };
