@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {canvasData} from './data';
-import {ModelEditorCanvas, OperationsInterface, BlockData, BlockItem} from "../src";
+import {ModelEditorCanvas, OperationsInterface, BlockData} from "../dist";
 import {Button} from "@material-ui/core";
 
 export default class App extends React.Component<any, any> {
