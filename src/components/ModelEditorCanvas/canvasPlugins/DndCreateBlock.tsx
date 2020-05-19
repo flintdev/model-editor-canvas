@@ -145,10 +145,6 @@ class DndCreateBlock extends React.PureComponent<any, any> {
                     {
                         type: "input",
                         id: utils.getUUId()
-                    },
-                    {
-                        type: "output",
-                        id: utils.getUUId()
                     }
                 ]
             }
@@ -169,10 +165,6 @@ class DndCreateBlock extends React.PureComponent<any, any> {
                         [
                             {
                                 type: "input",
-                                id: utils.getUUId()
-                            },
-                            {
-                                type: "output",
                                 id: utils.getUUId()
                             }
                         ]

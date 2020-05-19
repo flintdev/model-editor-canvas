@@ -12,8 +12,8 @@ export class Chain extends React.Component<any, any> {
         const hx1 = x1 + Math.abs(x2 - x1) * curvature;
         const hx2 = x2 - Math.abs(x2 - x1) * curvature;
 
-        // const path = `M ${x1} ${y1} C ${hx1} ${y1} ${hx2} ${y2} ${x2} ${y2}`;
-        const path = `M ${x1},${y1} L ${(x1 + x2) / 2},${y1} L ${(x1 + x2) / 2},${y2} L ${x2},${y2}`;
+        const path = `M ${x1} ${y1} C ${hx1} ${y1} ${hx2} ${y2} ${x2} ${y2}`;
+        // const path = `M ${x1},${y1} L ${(x1 + x2) / 2},${y1} L ${(x1 + x2) / 2},${y2} L ${x2},${y2}`;
 
         const pathID = `${x1}${y1}${x2}${y2}`;
         return (
