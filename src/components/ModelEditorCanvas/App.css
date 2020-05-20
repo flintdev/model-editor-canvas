@@ -84,9 +84,11 @@
   justify-content: center;
   padding: 10px;
   text-overflow: ellipsis;
+  font-size: 20px;
 }
 
 .block-item {
+  margin-bottom: 1px;
   flex-grow: 1;
   display: flex;
   justify-content: space-between;

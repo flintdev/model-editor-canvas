@@ -125,9 +125,8 @@ export class Block extends React.PureComponent<any, any> {
 
     getSocketStyle(socketType: string, visibility: boolean) {
         const map = {
-            "input": {alignSelf: `flex-start`, marginLeft: `-10px`, visibility: visibility ? "hidden" : "hidden"},
-            // "input": { position: `absolute`, top: `50%`, marginLeft: `-15px` },
-            "output": {alignSelf: `flex-end`, marginRight: `-10px`, visibility: visibility ? "visible" : "hidden"}
+            "input": {marginLeft: `-10px`, visibility: "hidden"},
+            "output": {marginRight: `-10px`, visibility: visibility ? "visible" : "hidden"}
         } as any;
         return map[socketType] as any;
     }
@@ -153,7 +152,6 @@ export class Block extends React.PureComponent<any, any> {
 
                     return (
                         <div key={i} style={{
-                            marginBottom: 5,
                             display: "flex",
                             borderBottom: type === "input" ? `2px solid grey` : ""
                         }}>
