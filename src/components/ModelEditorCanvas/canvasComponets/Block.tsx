@@ -153,7 +153,8 @@ export class Block extends React.PureComponent<any, any> {
                     return (
                         <div key={i} style={{
                             display: "flex",
-                            borderBottom: type === "input" ? `2px solid grey` : ""
+                            borderBottom: type === "input" ? `2px solid grey` : "",
+                            marginBottom: 1
                         }}>
                             {type === "output" && <div className={"block-item"}>
                                 <span className={"block-item-name"} style={{fontWeight: required ? "bold" : "unset"}}>
