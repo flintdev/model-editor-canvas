@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {canvasData} from './data';
+import {canvasData, canvasDataTwo} from './data';
 import {ModelEditorCanvas, OperationsInterface, BlockData} from "../dist";
 import {Button} from "@material-ui/core";
 
@@ -11,7 +11,8 @@ export default class App extends React.Component<any, any> {
         super(props);
         this.operations = {};
         this.state = {
-            blockData: ""
+            blockData: "",
+            editorData: canvasData
         };
         this.handleEditChange = this.handleEditChange.bind(this);
         this.handleEditSave = this.handleEditSave.bind(this);
@@ -34,19 +35,24 @@ export default class App extends React.Component<any, any> {
         }
     }
 
-    handleGetUUID(){
+    handleGetUUID() {
         if (this.operations.getUUID) {
             console.log('>>> operations.getUUID', this.operations.getUUID());
         }
     }
 
+    handleSwitch = () => {
+        this.setState({editorData: canvasDataTwo});
+    };
+
     render() {
+        const {editorData} = this.state;
         return (
             <div className="fit-parent" style={{display: "flex"}}>
                 <div style={{width: `80%`}}>
                     <ModelEditorCanvas
                         operations={this.operations}
-                        editorData={canvasData}
+                        editorData={editorData}
                         onSaved={(data: any) => console.log('>>> ModelEditorCanvas.onSave.data', data)}
                         onBlockDbClick={this.handleBlockDbClick}
                         onSchemaBtnClick={() => { }}
@@ -56,6 +62,7 @@ export default class App extends React.Component<any, any> {
                     <div>
                         <Button onClick={this.handleEditSave}>save</Button>
                         <Button onClick={this.handleGetUUID}>uuid</Button>
+                        <Button onClick={this.handleSwitch}>switch</Button>
                     </div>
                     <textarea style={{flexGrow: 1}} value={this.state.blockData} onChange={this.handleEditChange}
                               onBlur={this.handleEditSave}>
