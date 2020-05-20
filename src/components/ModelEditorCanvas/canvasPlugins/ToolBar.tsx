@@ -36,7 +36,9 @@ class ToolBar extends React.Component<any, any> {
                 this.setState({selectedNodeId: nodeData.nodeId});
             });
             engine.on(ENGINE_DEFAULT_EVENTS.ENGINE_LOAD_FROM_JSON, (data: any) => {
-                this.handleZoomFitAllNodes();
+                setTimeout(() => {
+                    this.handleZoomFitAllNodes();
+                },0 )
             });
         });
     }
