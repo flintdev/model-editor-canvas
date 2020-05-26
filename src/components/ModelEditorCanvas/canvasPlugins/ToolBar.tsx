@@ -26,6 +26,7 @@ class ToolBar extends React.Component<any, any> {
         this.handleSaveCanvas = this.handleSaveCanvas.bind(this);
         this.handleUpdateBlockData = this.handleUpdateBlockData.bind(this);
         this.handleZoomFitAllNodes = this.handleZoomFitAllNodes.bind(this);
+        this.handleInitAddBlock = this.handleInitAddBlock.bind(this);
     }
 
     init() {
@@ -46,7 +47,48 @@ class ToolBar extends React.Component<any, any> {
     componentDidMount() {
         const {operations} = this.props;
         operations.updateBlockData = this.handleUpdateBlockData;
+        operations.initAddBlock = this.handleInitAddBlock;
         operations.getUUID = utils.getUUId;
+    }
+
+    getBorder() {
+        const {editor} = this.props;
+        const engine: Engine = editor.getEngine();
+
+        let [left, top, right, bottom] = [Number.MAX_VALUE, Number.MAX_VALUE, Number.MIN_VALUE, Number.MIN_VALUE];
+        engine.nodes.forEach((node: Node) => {
+            if (node.nodeData.name === PLUGIN_COMPONENTS.Block.name) {
+                const {x, y} = node.nodeData;
+                left = Math.min(left, x);
+                top = Math.min(top, y);
+                right = Math.max(right, x + node.container.clientWidth);
+                bottom = Math.max(bottom, y + node.container.clientHeight);
+            }
+        });
+
+        return [left, top, right, bottom];
+    }
+
+    handleInitAddBlock(blockName: string) {
+        const {editor} = this.props;
+        const engine: Engine = editor.getEngine();
+
+        const [left, top, right, bottom] = this.getBorder();
+        const [x0, y0] = [(left + right) / 2, (top + bottom) / 2];
+
+        engine.addNode({
+            nodeId: "",
+            name: PLUGIN_COMPONENTS.Block.name, x: x0, y: y0, zIndex: 2,
+            props: {
+                blockName,
+                sockets: [
+                    {
+                        type: "input",
+                        id: utils.getUUId()
+                    }
+                ]
+            }
+        });
     }
 
 
@@ -142,16 +184,7 @@ class ToolBar extends React.Component<any, any> {
         const engine: Engine = editor.getEngine();
         if (engine.nodes.size === 0) return;
 
-        let [left, top, right, bottom] = [Number.MAX_VALUE, Number.MAX_VALUE, Number.MIN_VALUE, Number.MIN_VALUE];
-        engine.nodes.forEach((node: Node) => {
-            if (node.nodeData.name === PLUGIN_COMPONENTS.Block.name) {
-                const {x, y} = node.nodeData;
-                left = Math.min(left, x);
-                top = Math.min(top, y);
-                right = Math.max(right, x + node.container.clientWidth);
-                bottom = Math.max(bottom, y + node.container.clientHeight);
-            }
-        });
+        const [left, top, right, bottom] = this.getBorder();
 
         const width = Math.abs(left - right);
         const height = Math.abs(top - bottom);

@@ -3,6 +3,7 @@ import {ModelEditorCanvas} from "./components/ModelEditorCanvas"
 interface OperationsInterface {
     getUUID?: () => string,
     updateBlockData?: (data: BlockData) => any
+    initAddBlock?: (blockName: string) => void
 }
 
 interface BlockItem {

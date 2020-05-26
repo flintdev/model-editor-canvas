@@ -18,6 +18,7 @@ export default class App extends React.Component<any, any> {
         this.handleEditSave = this.handleEditSave.bind(this);
         this.handleBlockDbClick = this.handleBlockDbClick.bind(this);
         this.handleGetUUID = this.handleGetUUID.bind(this);
+        this.handleInitAddBlock = this.handleInitAddBlock.bind(this);
     }
 
     handleBlockDbClick(data: BlockData) {
@@ -38,6 +39,12 @@ export default class App extends React.Component<any, any> {
     handleGetUUID() {
         if (this.operations.getUUID) {
             console.log('>>> operations.getUUID', this.operations.getUUID());
+        }
+    }
+
+    handleInitAddBlock() {
+        if (this.operations.initAddBlock) {
+            this.operations.initAddBlock("hello")
         }
     }
 
@@ -63,6 +70,7 @@ export default class App extends React.Component<any, any> {
                         <Button onClick={this.handleEditSave}>save</Button>
                         <Button onClick={this.handleGetUUID}>uuid</Button>
                         <Button onClick={this.handleSwitch}>switch</Button>
+                        <Button onClick={this.handleInitAddBlock}>initAdd</Button>
                     </div>
                     <textarea style={{flexGrow: 1}} value={this.state.blockData} onChange={this.handleEditChange}
                               onBlur={this.handleEditSave}>
