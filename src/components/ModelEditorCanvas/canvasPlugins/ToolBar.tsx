@@ -72,9 +72,14 @@ class ToolBar extends React.Component<any, any> {
     handleInitAddBlock(blockName: string) {
         const {editor} = this.props;
         const engine: Engine = editor.getEngine();
-
-        const [left, top, right, bottom] = this.getBorder();
-        const [x0, y0] = [(left + right) / 2, (top + bottom) / 2];
+        let {x:x0,y:y0} = engine.transform;
+        if (engine.nodes.size === 0) {
+            x0 = -x0
+            y0 = -y0
+        } else {
+            const [left, top, right, bottom] = this.getBorder();
+            [x0, y0] = [(left + right) / 2, (top + bottom) / 2];
+        }
 
         engine.addNode({
             nodeId: "",
@@ -89,6 +94,7 @@ class ToolBar extends React.Component<any, any> {
                 ]
             }
         });
+        this.handleZoomFitAllNodes();
     }
 
 
