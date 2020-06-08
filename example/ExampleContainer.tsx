@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {canvasData, canvasDataTwo} from './data';
-import {ModelEditorCanvas, OperationsInterface, BlockData} from "../dist";
+import {ModelEditorCanvas, OperationsInterface, BlockData, getInitialEditorData} from "../dist";
 import {Button} from "@material-ui/core";
 
 export default class App extends React.Component<any, any> {
@@ -12,13 +12,12 @@ export default class App extends React.Component<any, any> {
         this.operations = {};
         this.state = {
             blockData: "",
-            editorData: canvasData
+            editorData: null
         };
         this.handleEditChange = this.handleEditChange.bind(this);
         this.handleEditSave = this.handleEditSave.bind(this);
         this.handleBlockDbClick = this.handleBlockDbClick.bind(this);
         this.handleGetUUID = this.handleGetUUID.bind(this);
-        this.handleInitAddBlock = this.handleInitAddBlock.bind(this);
     }
 
     handleBlockDbClick(data: BlockData) {
@@ -42,12 +41,6 @@ export default class App extends React.Component<any, any> {
         }
     }
 
-    handleInitAddBlock() {
-        if (this.operations.initAddBlock) {
-            this.operations.initAddBlock("hello")
-        }
-    }
-
     handleSwitch = () => {
         this.setState({editorData: canvasDataTwo});
     };
@@ -59,7 +52,7 @@ export default class App extends React.Component<any, any> {
                 <div style={{width: `80%`}}>
                     <ModelEditorCanvas
                         operations={this.operations}
-                        editorData={editorData}
+                        editorData={editorData || getInitialEditorData("init")}
                         onSaved={(data: any) => console.log('>>> ModelEditorCanvas.onSave.data', data)}
                         onBlockDbClick={this.handleBlockDbClick}
                         onSchemaBtnClick={() => { }}
@@ -70,7 +63,6 @@ export default class App extends React.Component<any, any> {
                         <Button onClick={this.handleEditSave}>save</Button>
                         <Button onClick={this.handleGetUUID}>uuid</Button>
                         <Button onClick={this.handleSwitch}>switch</Button>
-                        <Button onClick={this.handleInitAddBlock}>initAdd</Button>
                     </div>
                     <textarea style={{flexGrow: 1}} value={this.state.blockData} onChange={this.handleEditChange}
                               onBlur={this.handleEditSave}>
