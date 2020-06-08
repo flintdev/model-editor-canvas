@@ -26,7 +26,6 @@ class ToolBar extends React.Component<any, any> {
         this.handleSaveCanvas = this.handleSaveCanvas.bind(this);
         this.handleUpdateBlockData = this.handleUpdateBlockData.bind(this);
         this.handleZoomFitAllNodes = this.handleZoomFitAllNodes.bind(this);
-        this.handleInitAddBlock = this.handleInitAddBlock.bind(this);
     }
 
     init() {
@@ -47,7 +46,6 @@ class ToolBar extends React.Component<any, any> {
     componentDidMount() {
         const {operations} = this.props;
         operations.updateBlockData = this.handleUpdateBlockData;
-        operations.initAddBlock = this.handleInitAddBlock;
         operations.getUUID = utils.getUUId;
     }
 
@@ -68,35 +66,6 @@ class ToolBar extends React.Component<any, any> {
 
         return [left, top, right, bottom];
     }
-
-    handleInitAddBlock(blockName: string) {
-        const {editor} = this.props;
-        const engine: Engine = editor.getEngine();
-        let {x:x0,y:y0} = engine.transform;
-        if (engine.nodes.size === 0) {
-            x0 = -x0
-            y0 = -y0
-        } else {
-            const [left, top, right, bottom] = this.getBorder();
-            [x0, y0] = [(left + right) / 2, (top + bottom) / 2];
-        }
-
-        engine.addNode({
-            nodeId: "",
-            name: PLUGIN_COMPONENTS.Block.name, x: x0, y: y0, zIndex: 2,
-            props: {
-                blockName,
-                sockets: [
-                    {
-                        type: "input",
-                        id: utils.getUUId()
-                    }
-                ]
-            }
-        });
-        this.handleZoomFitAllNodes();
-    }
-
 
     handleUpdateBlockData(blockData: any) {
 
