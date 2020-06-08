@@ -1,6 +1,6 @@
 {
   "name": "@flintdev/model-editor-canvas",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "npm package - react canvas engine",
   "main": "dist/index.js",
   "scripts": {
